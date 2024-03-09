@@ -16,6 +16,11 @@ class BluetoothService {
     }
   }
 
+  Future<void> disconnect() async {
+    if (_bluetoothConnection == null) return;
+    await _bluetoothConnection!.finish();
+  }
+
   Future<void> sendData(String data) async {
     if (_bluetoothConnection == null) return;
     _bluetoothConnection!.output.add(ascii.encode(data));

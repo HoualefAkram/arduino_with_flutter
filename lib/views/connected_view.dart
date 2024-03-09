@@ -22,7 +22,13 @@ class ConnectedView extends StatelessWidget {
             context.read<ConnectivityCubit>().sendData("0");
           },
           child: const Text("OFF"),
-        )
+        ),
+        ElevatedButton(
+          onPressed: () {
+            context.read<ConnectivityCubit>().disconnect();
+          },
+          child: const Text("Disconnect"),
+        ),
       ],
     ));
   }

@@ -7,7 +7,7 @@ part 'connectivity_state.dart';
 
 class ConnectivityCubit extends Cubit<ConnectivityState> {
   ConnectivityCubit() : super(ConnectivityStateUninitialized());
-  final BluetoothService bluetoothService = BluetoothService();
+  final BluetoothService _bluetoothService = BluetoothService();
   Future<void> initialize() async {
     emit(
       ConnectivityStateDisconnected(),
@@ -15,8 +15,8 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
   }
 
   Future<void> connect() async {
-    if (bluetoothService.isConnected) return;
-    final bool connect = await bluetoothService.connect();
+    if (_bluetoothService.isConnected) return;
+    final bool connect = await _bluetoothService.connect();
     log("connect: $connect");
     if (connect) {
       emit(
@@ -27,8 +27,13 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
     }
   }
 
+  Future<void> disconnect() async {
+    await _bluetoothService.disconnect();
+    emit(ConnectivityStateDisconnected());
+  }
+
   Future<void> sendData(String data) async {
-    await bluetoothService.sendData(data);
+    await _bluetoothService.sendData(data);
   }
 
   Future<void> changeCircuit({
