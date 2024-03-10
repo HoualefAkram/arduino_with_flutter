@@ -15,13 +15,19 @@ class ConnectedView extends StatelessWidget {
           onPressed: () async {
             context.read<ConnectivityCubit>().sendData("1");
           },
-          child: const Text("ON"),
+          child: const Text("LED 1"),
         ),
         ElevatedButton(
-          onPressed: () {
-            context.read<ConnectivityCubit>().sendData("0");
+          onPressed: () async {
+            context.read<ConnectivityCubit>().sendData("2");
           },
-          child: const Text("OFF"),
+          child: const Text("LED 2"),
+        ),
+        ElevatedButton(
+          onPressed: () async {
+            context.read<ConnectivityCubit>().sendData("3");
+          },
+          child: const Text("LED 3"),
         ),
         ElevatedButton(
           onPressed: () {
