@@ -10,7 +10,7 @@ void main() {
       child: MaterialApp(
         title: 'PFC SGC',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
           useMaterial3: true,
         ),
         home: const Main(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pfc_sgc/enums/amplifier_circuit.dart';
 import 'package:pfc_sgc/logic/ConnectivityCubit/connectivity_cubit.dart';
 
 class ConnectedView extends StatelessWidget {
@@ -13,21 +14,27 @@ class ConnectedView extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: () async {
-            context.read<ConnectivityCubit>().sendData("1");
+            context
+                .read<ConnectivityCubit>()
+                .changeCircuit(amplifierCircuit: AmplifierCircuit.weinAOP);
           },
-          child: const Text("LED 1"),
+          child: const Text("weinAOP"),
         ),
         ElevatedButton(
           onPressed: () async {
-            context.read<ConnectivityCubit>().sendData("2");
+            context
+                .read<ConnectivityCubit>()
+                .changeCircuit(amplifierCircuit: AmplifierCircuit.colpittsAOP);
           },
-          child: const Text("LED 2"),
+          child: const Text("colpittsAOP"),
         ),
         ElevatedButton(
           onPressed: () async {
-            context.read<ConnectivityCubit>().sendData("3");
+            context.read<ConnectivityCubit>().changeCircuit(
+                  amplifierCircuit: AmplifierCircuit.colpittsTransistor,
+                );
           },
-          child: const Text("LED 3"),
+          child: const Text("colpittsTransistor"),
         ),
         ElevatedButton(
           onPressed: () {

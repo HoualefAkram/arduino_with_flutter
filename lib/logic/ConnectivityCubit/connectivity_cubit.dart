@@ -6,46 +6,89 @@ import 'package:pfc_sgc/services/bluetooth_service.dart';
 part 'connectivity_state.dart';
 
 class ConnectivityCubit extends Cubit<ConnectivityState> {
-  ConnectivityCubit() : super(ConnectivityStateUninitialized());
+  ConnectivityCubit()
+      : super(ConnectivityStateUninitialized(
+          isLoading: false,
+        ));
   final BluetoothService _bluetoothService = BluetoothService();
   Future<void> initialize() async {
-    emit(
-      ConnectivityStateDisconnected(),
+    _bluetoothService.startListening();
+    _bluetoothService.connectivityStream.listen(
+      (bool isConnected) {
+        log("connection: $isConnected");
+        if (!isConnected) {
+          emit(ConnectivityStateDisconnected(
+            isLoading: state.isLoading,
+          ));
+        }
+      },
     );
   }
 
-  Future<void> connect() async {
-    if (_bluetoothService.isConnected) return;
-    final bool connect = await _bluetoothService.connect();
-    log("connect: $connect");
-    if (connect) {
+  Future<void> connect({required address}) async {
+    try {
+      if (_bluetoothService.isConnected) return;
       emit(
-        ConnectivityStateConnected(
-          amplifierCircuit: AmplifierCircuit.weinAOP,
+        ConnectivityStateDisconnected(
+          isLoading: true,
+        ),
+      );
+      final bool connect = await _bluetoothService.connect(address: address);
+      log("connect: $connect");
+      if (connect) {
+        await _bluetoothService.sendData("1");
+        emit(
+          ConnectivityStateConnected(
+            amplifierCircuit: AmplifierCircuit.weinAOP,
+            isLoading: false,
+          ),
+        );
+      } else {
+        emit(
+          ConnectivityStateDisconnected(
+            isLoading: false,
+          ),
+        );
+      }
+    } catch (_) {
+      emit(
+        ConnectivityStateDisconnected(
+          isLoading: false,
         ),
       );
     }
   }
 
   Future<void> disconnect() async {
-    await _bluetoothService.disconnect();
-    emit(ConnectivityStateDisconnected());
-  }
-
-  Future<void> sendData(String data) async {
-    await _bluetoothService.sendData(data);
+    try {
+      await _bluetoothService.disconnect();
+    } catch (_) {}
   }
 
   Future<void> changeCircuit({
     required AmplifierCircuit amplifierCircuit,
   }) async {
-    // TODO: Change circuit
+    try {
+      switch (amplifierCircuit) {
+        case AmplifierCircuit.weinAOP:
+          await _bluetoothService.sendData("1");
+          break;
 
-    //  emit new state
-    emit(
-      ConnectivityStateConnected(
-        amplifierCircuit: amplifierCircuit,
-      ),
-    );
+        case AmplifierCircuit.colpittsAOP:
+          await _bluetoothService.sendData("2");
+          break;
+
+        case AmplifierCircuit.colpittsTransistor:
+          await _bluetoothService.sendData("3");
+          break;
+      }
+      //  emit new state
+      emit(
+        ConnectivityStateConnected(
+          amplifierCircuit: amplifierCircuit,
+          isLoading: state.isLoading,
+        ),
+      );
+    } catch (_) {}
   }
 }
