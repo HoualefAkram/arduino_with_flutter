@@ -19,11 +19,15 @@ Future<void> showAppInfoDialog(BuildContext context) async => showDialog(
               title: Text("USTO-MB"),
             ),
             const ListTile(
+              leading: Text("Departement: "),
+              title: Text("L3 TC G4"),
+            ),
+            const ListTile(
               leading: Text("Année: "),
               title: Text("2023/2024"),
             ),
             const ListTile(
-              leading: Text("Groupe: "),
+              leading: Text("S-Groupe: "),
               title: Text("C"),
             ),
             ListTile(
@@ -39,7 +43,7 @@ Future<void> showAppInfoDialog(BuildContext context) async => showDialog(
               title: Text("- Hidjazi issam"),
             ),
             const ListTile(
-              title: Text("- Fizzazi omar"),
+              title: Text("- Fizzezi omar"),
             ),
           ],
         ),
