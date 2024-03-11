@@ -29,7 +29,8 @@ class _MainState extends State<Main> {
             BlocConsumer<ConnectivityCubit, ConnectivityState>(
               listener: (context, state) {
                 if (state.isLoading) {
-                  LoadingScreen().show(context: context);
+                  LoadingScreen()
+                      .show(context: context, text: "connexion en cours");
                 } else {
                   LoadingScreen().hide();
                 }

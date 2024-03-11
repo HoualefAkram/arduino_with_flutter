@@ -65,11 +65,22 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
     } catch (_) {}
   }
 
+  String circuitName(AmplifierCircuit circuit) {
+    switch (circuit) {
+      case AmplifierCircuit.weinAOP:
+        return "Wein avec AOP";
+      case AmplifierCircuit.colpittsAOP:
+        return "Colpitts avec AOP";
+      case AmplifierCircuit.colpittsTransistor:
+        return "Colpitts avec transistor";
+    }
+  }
+
   Future<void> changeCircuit({
-    required AmplifierCircuit amplifierCircuit,
+    required AmplifierCircuit circuit,
   }) async {
     try {
-      switch (amplifierCircuit) {
+      switch (circuit) {
         case AmplifierCircuit.weinAOP:
           await _bluetoothService.sendData("1");
           break;
@@ -85,7 +96,7 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
       //  emit new state
       emit(
         ConnectivityStateConnected(
-          amplifierCircuit: amplifierCircuit,
+          amplifierCircuit: circuit,
           isLoading: state.isLoading,
         ),
       );

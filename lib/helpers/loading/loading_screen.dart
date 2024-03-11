@@ -15,16 +15,15 @@ class LoadingScreen {
     required BuildContext context,
     String? text,
     Widget? image,
-    bool useEvercamLogo = false,
   }) {
-    if (controller?.update(text ?? "Loading...") ?? false) {
+    if (controller?.update(text ?? "Chargement...") ?? false) {
       return;
     } else {
       controller = showOverlay(
-          context: context,
-          text: text ?? "Loading...",
-          image: image,
-          useEvercamLogo: useEvercamLogo);
+        context: context,
+        text: text ?? "Chargement...",
+        image: image,
+      );
     }
   }
 
@@ -37,7 +36,6 @@ class LoadingScreen {
     required BuildContext context,
     required String text,
     required Widget? image,
-    required bool useEvercamLogo,
   }) {
     final loadingScreenText = StreamController<String>();
     loadingScreenText.add(text);
