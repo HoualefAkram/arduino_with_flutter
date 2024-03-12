@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pfc_sgc/constants/images.dart';
 import 'package:pfc_sgc/constants/text_style.dart';
 import 'package:pfc_sgc/enums/amplifier_circuit.dart';
 import 'package:pfc_sgc/logic/ConnectivityCubit/connectivity_cubit.dart';
@@ -123,7 +124,11 @@ class ConnectedView extends StatelessWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                const Placeholder(),
+                Placeholder(
+                  child: Image.asset(
+                    AmplifierImage.getImage(state.amplifierCircuit),
+                  ),
+                ),
                 const SizedBox(
                   height: 15,
                 ),
